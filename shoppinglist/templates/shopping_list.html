@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Lista zakupów{% endblock %}
+
+{% block content %}
+  <h1>Lista zakupów</h1>
+  <form action="{% url 'shopping_list' %}", method="post">
+  {% for shop, shop_data in data.items %}
+    <h2>{{ shop }} [{{ shop_data.total_value }} zł]</h2>
+    <ul>
+    {% for item in shop_data.list_of_products %}
+      <li>
+        <span class="number">{{ forloop.counter }}</span>
+        <span class="name">{{ item.product }}</span>
+        <span class="price"> {{ item.amount }} x {{ item.price }} zł</span>
+        <input type="checkbox" name="action" value="{{ item.id }}" {% if item.bought %}checked{% endif %} onChange="this.form.submit()"> Kupione
+      </li>
+    {% endfor %}
+    </ul>
+  {% empty %}
+    <h2>Brak pozycji</h2>
+  {% endfor %}
+
+  {% csrf_token %}
+  </form>
+  {% if summary %}
+    <h3>Podsumowanie: {{ summary }} zł</h3>
+
+  {% endif %}
+    <a href="{% url 'add_item' %}">Dodaj produkt</a>
+{% endblock %}

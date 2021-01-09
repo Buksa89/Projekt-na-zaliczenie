@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Dodawanie produktu{% endblock %}
+
+{% block content %}
+  <h1>Dodawanie produktu</h1>
+
+    <div>
+        {% for message in messages %}
+    <p> {{ message }} </p>
+    {% endfor %}
+        <form name="add-client-form" method="POST" action="{% url 'add_item' %}">
+            {{ form.as_p }}
+            {% csrf_token %}
+    <input class="btn green" name="submit" type="submit" value="DODAJ">
+        </form>
+    </div>
+
+    <a class="btn gray" href="{% url 'shopping_list' %}">WRÓĆ DO LISTY</a>
+{% endblock %}
